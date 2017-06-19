@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.ascent.kjsb.entity.Project" table="project">
+		<id name="projectid" column="projectid">
+			<generator class="native" />
+		</id>
+		<property name="applicant" column="applicant" length="15" />
+		<property name="grade" column="grade" length="20" />
+		<property name="education" column="education" length="20" />
+		<property name="fill_date" column="fill_date" />
+		<property name="status" column="status" />
+		<property name="future" column="future" />
+		<property name="analysis" column="analysis" />
+		<property name="way" column="way" />
+		<property name="result" column="result" />
+		<property name="projectname" column="projectname" length="100" />
+		<property name="capital" column="capital" length="20" />
+		<property name="expert_opinion" column="expert_opinion" />
+		<property name="score" column="score" length="11" />
+		<property name="ispass" column="ispass" length="15" />
+
+		
+		<many-to-one name="category" class="com.ascent.kjsb.entity.ProjectCategory"
+			column="categoryid"/>
+			
+		<many-to-one name="unitid" class="com.ascent.kjsb.entity.Unit"
+			column="unitid"/>
+
+	</class>
+</hibernate-mapping>

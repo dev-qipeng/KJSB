@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.ascent.kjsb.entity.Unit" table="unit">
+		<id name="unitid" column="unitid">
+			<generator class="native" />
+		</id>
+		<property name="unitname" column="unitname" length="50" />
+		<property name="address" column="address" length="50" />
+		<property name="corporation" column="corporation" length="20" />
+		<property name="investment" column="investment" length="10" />
+		<property name="type" column="type" length="20" />
+		<property name="tel" column="tel" length="15" />
+		<property name="email" column="email" length="30" />
+		<property name="fax" column="fax" length="15" />
+		<property name="zipcode" column="zipcode" length="30" />
+		<property name="introduction" column="introduction" length="255" />
+		<property name="uusername" column="uusername" length="20" />
+		<property name="upassword" column="upassword" length="20" />
+		
+		<set name="projects" cascade="all" inverse="true">
+			<key column="unitid"/>
+			<one-to-many class="com.ascent.kjsb.entity.Project"/>
+		</set>
+
+	</class>
+</hibernate-mapping>

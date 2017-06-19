@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+<constant name="struts.devMode" value="true" />
+	<package name="kjsb" extends="struts-default" namespace="/">
+		<action name="login_*" class="loginAction" method="{1}">
+			<result name="adminLogin">/admin/admin_index.jsp</result>
+			<result name="expertLogin" type="redirectAction">expert_expert.action</result>
+			<result name="unitLogin">/unit/unit_index.jsp</result>
+			<result name="loginError">/login.jsp</result>
+		</action>
+
+		<action name="admin_*" class="adminAction" method="{1}">
+			<result name="success">/admin/showusers.jsp</result>
+			
+			<result name="addUser">/admin/adduser.jsp</result>
+			<result name="saveSuccess" type="redirectAction">admin_user.action</result>
+			<result name="saveError">/error.jsp</result>
+			<result name="deleteExpertSuccess" type="redirectAction">admin_expert.action
+			</result>
+			<!-- <result name="deleteUnitSuccess" type="redirectAction">admin_user.action
+			</result> -->
+			<result name="deleteUnitSuccess" type="redirectAction">admin_unit.action
+			</result>
+			
+			
+			<result name="updateUnit">/admin/updateunit.jsp</result>
+		</action>
+		<action name="expert_*" class="expertAction" method="{1}">
+			<result name="expert">/expert/expert_index.jsp</result>
+			<result name="expertInfo">/expert/viewexpertinfo.jsp</result>
+			<result name="updateSuccess">/expert/viewexpertinfo.jsp</result>
+			<result name="updatePwd">/expert/reworkpassword.jsp</result>
+			<result name="updatePwdField" type="redirectAction">expert_updatepwd.action</result>
+			<result name="reworkPwdSuccess">/login.jsp</result>
+		</action>
+		<action name="unit_*" class="unitAction" method="{1}">
+			<result name="unitinfo">/unit/viewunitinfo.jsp</result>
+		</action>
+	</package>
+	<package name="admin" extends="struts-default" namespace="/admin">
+		<action name="expert_*" class="adminUpdateExpertAction" method="{1}">
+			<result name="showExpert">/admin/showexperts.jsp</result>
+			<result name="updateExpert">/admin/updateexpert.jsp</result>
+			<result name="deleteExpertSuccess" type="redirectAction">admin_user.action
+			</result>
+			<result name="updateSuccess" type="redirectAction">expert_showExpert.action</result>
+		</action>
+		<action name="unit_*" class="adminUnitAction" method="{1}">
+			<result name="showUnit">/admin/showunits.jsp</result>
+		</action>
+	</package>
+</struts>

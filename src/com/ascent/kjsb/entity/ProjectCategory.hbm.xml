@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.ascent.kjsb.entity.ProjectCategory" table="project_category">
+		<id name="categoryid" column="categoryid">
+			<generator class="native" />
+		</id>
+		<property name="categoryname" column="categoryname" length="50" />
+		<property name="rep_start_time" column="rep_start_time" />
+		<property name="rep_stop_time" column="rep_stop_time" />
+		<property name="exp_start_time" column="exp_start_time" />
+		<property name="exp_stop_time" column="exp_stop_time" />
+		
+		<many-to-one name="expert" class="com.ascent.kjsb.entity.Expert"
+			column="expertId"/>
+		
+		<set name="projects" cascade="all" inverse="true">
+			<key column="categoryid"/>
+			<one-to-many class="com.ascent.kjsb.entity.Project"/>
+		</set>
+
+	</class>
+</hibernate-mapping>

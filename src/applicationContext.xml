@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/jdbc
+    http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+    http://www.springframework.org/schema/cache
+    http://www.springframework.org/schema/cache/spring-cache-3.1.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 配置连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/kjsb?useUnicode=true&amp;characterEncoding=utf-8" />
+		<property name="user" value="root" />
+		<property name="password" value="123456" />
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>com/ascent/kjsb/entity/Admin.hbm.xml</value>
+				<value>com/ascent/kjsb/entity/Unit.hbm.xml</value>
+				<value>com/ascent/kjsb/entity/Expert.hbm.xml</value>
+				<value>com/ascent/kjsb/entity/ProjectCategory.hbm.xml</value>
+				<value>com/ascent/kjsb/entity/Project.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 配置Action的类 -->
+	<bean id="loginAction" class="com.ascent.kjsb.action.LoginAction" scope="prototype">
+		<property name="adminService" ref="adminService" />
+		<property name="expertService" ref="expertService" />
+		<property name="unitService" ref="unitService" />
+	</bean>
+	<bean id="adminAction" class="com.ascent.kjsb.action.AdminAction" scope="prototype">
+		<property name="adminService" ref="adminService" />
+		<property name="expertService" ref="expertService" />
+		<property name="unitService" ref="unitService" />
+	</bean>
+	<bean id="adminUpdateExpertAction" class="com.ascent.kjsb.action.AdminUpdateExpertAction" scope="prototype">
+		<property name="expertService" ref="expertService" />
+	</bean>
+	<bean id="adminUnitAction" class="com.ascent.kjsb.action.AdminUnitAction" scope="prototype">
+		<property name="unitService" ref="unitService" />
+	</bean>
+	<bean id="expertAction" class="com.ascent.kjsb.action.ExpertAction" scope="prototype">
+		<property name="expertService" ref="expertService" />
+	</bean>
+	<bean id="unitAction" class="com.ascent.kjsb.action.UnitAction" scope="prototype">
+		<property name="unitService" ref="unitService" />
+	</bean>
+
+	<!-- 配置业务层的类 -->
+	<bean id="adminService" class="com.ascent.kjsb.service.impl.AdmiServiceImpl">
+		<property name="adminDao" ref="adminDao" />
+	</bean>
+	<bean id="expertService" class="com.ascent.kjsb.service.impl.ExpertServiceImpl">
+		<property name="expertDao" ref="expertDao" />
+	</bean>
+	<bean id="unitService" class="com.ascent.kjsb.service.impl.UnitServiceImpl">
+		<property name="unitDao" ref="unitDao" />
+	</bean>
+
+	<!-- 配置Dao的类 -->
+	<bean id="adminDao" class="com.ascent.kjsb.dao.impl.AdminDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="expertDao" class="com.ascent.kjsb.dao.impl.ExpertDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="unitDao" class="com.ascent.kjsb.dao.impl.UnitDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 添加事物 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>

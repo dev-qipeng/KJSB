@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.ascent.kjsb.entity.Admin" table="admin">
+		<id name="aid" column="aid">
+			<generator class="native" />
+		</id>
+		<property name="aname" column="aname" length="15" />
+		<property name="department" column="department" length="15" />
+		<property name="ausername" column="ausername" length="15" />
+		<property name="apassword" column="apassword" length="15" />
+
+	</class>
+</hibernate-mapping>
